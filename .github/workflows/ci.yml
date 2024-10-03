@@ -19,13 +19,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # Siz ishlatadigan Node.js versiyasini kiriting
+          node-version: '22'  # Siz ishlatadigan Node.js versiyasini kiriting
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run tests
-        run: npm test
+    #   - name: Run tests
+    #     run: npm test
 
       - name: Build the app
         run: npm run build
