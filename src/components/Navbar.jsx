@@ -6,36 +6,62 @@ import notify from "../assets/img/notify.svg";
 
 function Navbar() {
   return (
-    <nav className="bg-white shadow-md px-4 py-2 flex justify-between items-center">
+    <nav className="bg-white shadow-md px-6 py-3 flex justify-between items-center">
+      {/* Logo qismi */}
       <div className="flex items-center">
-        <img src={logo} alt="Logo" className="w-full" />
-        {/* <h1 className="font-bold text-lg">МИС.DOC</h1> */}
+        <img src={logo} alt="Logo" className="w-40" />
       </div>
-      <div className="flex space-x-4 items-center">
-        <input
-          type="text"
-          placeholder="Поиск"
-          className="border rounded-lg px-3 py-2 text-sm"
-        />
-        <div>
-          <a className="border rounded-full block h-full" href="">
-            <img src={notify} alt="logout" />
+
+      {/* O'ng tomondagi qism */}
+      <div className="flex items-center space-x-6">
+        {/* Qidiruv qutisi */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Поиск"
+            className="border border-gray-300 rounded-full pl-10 pr-4 py-2 text-sm bg-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="absolute left-3 top-2.5 h-5 w-5 text-gray-400"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M12.9 14.32a8 8 0 111.414-1.414l5.386 5.387a1 1 0 11-1.414 1.414l-5.386-5.387zM8 14a6 6 0 100-12 6 6 0 000 12z"
+              clipRule="evenodd"
+            />
+          </svg>
+        </div>
+
+        {/* Bildirishnoma belgisi */}
+        <div className="relative">
+          <a
+            className="rounded-full inline-block p-2 bg-gray-100 hover:bg-gray-200"
+            href=""
+          >
+            <img src={notify} alt="notify" className="w-7 h-7" />
           </a>
         </div>
-        <div className="flex items-center space-x-2">
+
+        {/* Foydalanuvchi ma'lumotlari */}
+        <div className="flex items-center space-x-3">
           <img
             src={Mask}
             alt="User Avatar"
-            className="w-10 h-10 rounded-full"
+            className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden sm:block">
             <h4 className="text-sm font-semibold">Титов Артем</h4>
             <span className="text-gray-500 text-sm">Администратор</span>
           </div>
         </div>
+
+        {/* Chiqish tugmasi */}
         <div>
-          <a className="border bg-slate-500 block h-full p-3" href="">
-            <img src={Logout} alt="logout" />
+          <a className="rounded-xl inline-block p-2 bg-gray-100 hover:bg-gray-200" href="">
+            <img src={Logout} alt="logout" className="w-6" />
           </a>
         </div>
       </div>
