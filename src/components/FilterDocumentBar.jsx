@@ -32,7 +32,7 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
         </button>
 
         <div
-          className={`absolute w-60 bg-white shadow-lg p-4 rounded-lg z-88 ${
+          className={`absolute w-72 bg-white shadow-lg p-4 rounded-lg z-88 ${
             filter.open ? "" : "hidden"
           }`}
         >
@@ -42,7 +42,7 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
               name="status"
               value={filter.status}
               onChange={handleFilterChange}
-              className="border rounded-lg bg-white px-4 py-2 w-full"
+              className="border rounded-lg font-extralight  bg-white px-4 py-2 w-full"
             >
               <option value="">Выберите статус</option>
               <option value="В работе">В работе</option>
@@ -53,29 +53,39 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Отправитель</label>
-            <input
+            <label className="block text-gray-700 font-semibold">
+              Отправитель
+            </label>
+            <select
               name="sender"
-              type="text"
               value={filter.sender}
               onChange={handleFilterChange}
-              className="border rounded-lg px-4 py-2 w-full"
-            />
+              className="border bg-white font-extralight rounded-lg px-4 py-2 w-full"
+            >
+              <option value="">Выберите отправителя</option>
+              {/* Boshqa variantlar shu yerda */}
+              <option value="sender1">Отправитель 1</option>
+              <option value="sender2">Отправитель 2</option>
+            </select>
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Дата создания</label>
+            <label className="block text-gray-700 font-semibold">
+              Дата создания
+            </label>
             <input
               name="date"
               type="date"
               value={filter.date}
               onChange={handleFilterChange}
-              className="border rounded-lg px-4 py-2 w-full"
+              className="border rounded-lg font-extralight  px-4 py-2 w-full"
             />
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">На кого отправлен</label>
+            <label className="block text-gray-700 font-semibold">
+              На кого отправлен
+            </label>
             <input
               name="recipient"
               type="text"
@@ -83,6 +93,12 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
               onChange={handleFilterChange}
               className="border rounded-lg px-4 py-2 w-full"
             />
+          </div>
+
+          <div>
+            <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+              Фильтровать
+            </button>
           </div>
         </div>
       </div>

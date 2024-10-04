@@ -6,9 +6,6 @@ import FileText from "../assets/img/FileText.png";
 import IdentificationBadge from "../assets/img/IdentificationBadge.svg";
 import VectorThree from "../assets/img/VectorThree.svg";
 
-
-
-
 function Sidebar({ isOpen, toggleMenu }) {
   const [isDocuemntOpen, setIsDocumentOpen] = useState(false);
 
@@ -37,200 +34,217 @@ function Sidebar({ isOpen, toggleMenu }) {
 
             {isDocuemntOpen && (
               <ul className="pl-6 mt-2 space-y-2">
-              <li>
-                <NavLink
-                  to="/all"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      <div className="flex items-center justify-between w-full">
-                      Все
-                       <span id="documentCount" className="text-red-500 ml-2">(15)</span>
-                      </div>
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/in-work"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      В работе
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/postponed"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Отложенные
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/completed"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Завершенные
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/drafts"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Черновики
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/attention-required"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Требуют внимания
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/processing-required"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Требуют обработки
-                    </>
-                  )}
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  to="/processed"
-                  className={({ isActive }) =>
-                    isActive
-                      ? "text-blue-600 font-bold flex items-center"
-                      : "text-gray-600 flex items-center"
-                  }
-                >
-                  {({ isActive }) => (
-                    <>
-                      <span
-                        className={
-                          isActive
-                            ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
-                            : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
-                        }
-                      ></span>
-                      Обработанные
-                    </>
-                  )}
-                </NavLink>
-              </li>
-            </ul>
-            
+                <li>
+                  <NavLink
+                    to="/document"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        <div className="flex items-center justify-between w-full">
+                          Все
+                          <span
+                            id="documentCount"
+                            className="text-red-500 ml-2"
+                          >
+                            (15)
+                          </span>
+                        </div>
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/in-work"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        В работе
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/postponed"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Отложенные
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/completed"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Завершенные
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/drafts"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Черновики
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/attention-required"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Требуют внимания
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/processing-required"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Требуют обработки
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/processed"
+                    className={({ isActive }) =>
+                      isActive
+                        ? "text-blue-600 font-bold flex items-center"
+                        : "text-gray-600 flex items-center"
+                    }
+                  >
+                    {({ isActive }) => (
+                      <>
+                        <span
+                          className={
+                            isActive
+                              ? "w-2.5 h-2.5 rounded-full bg-blue-500 mr-2"
+                              : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
+                          }
+                        ></span>
+                        Обработанные
+                      </>
+                    )}
+                  </NavLink>
+                </li>
+              </ul>
             )}
           </li>
 
-          <li className="mt-8 space-x-1 flex items-center gap-2"> <img src={IdentificationBadge} alt="Сотрудники image" />  Сотрудники</li>
-          <li className="mt-8 flex items-center gap-2"> <img src={VectorThree} alt="Маршруты image" />  Маршруты</li>
+          <li className="mt-8 space-x-1 flex items-center gap-2">
+            {" "}
+            <img src={IdentificationBadge} alt="Сотрудники image" /> Сотрудники
+          </li>
+          <NavLink
+            to="route"
+            className={({ isActive }) =>
+              isActive
+                ? "mt-8 flex items-center bg-blue-600 bg-blue-500 gap-2 text-white px-4 py-2 rounded-md"
+                : "mt-8 flex items-center gap-2"
+            }
+          >
+            {" "}
+            <img src={VectorThree} alt="Маршруты image" /> Маршруты
+          </NavLink>
         </ul>
       </aside>
     </div>
