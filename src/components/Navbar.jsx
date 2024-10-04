@@ -3,6 +3,7 @@ import logo from "../assets/img/logo.svg";
 import Mask from "../assets/img/Mask.svg";
 import Logout from "../assets/img/li_log-out.svg";
 import notify from "../assets/img/notify.svg";
+import MobileSidebar from "./MobileSidebar"; // Import MobileSidebar
 
 function Navbar() {
   return (
@@ -12,9 +13,12 @@ function Navbar() {
         <img src={logo} alt="Logo" className="w-40" />
       </div>
 
+      {/* Mobile sidebar */}
+      <MobileSidebar />
+
       {/* O'ng tomondagi qism */}
-      <div className="flex items-center space-x-6">
-        {/* Qidiruv qutisi */}
+      <div className="flex items-center space-x-6 hidden md:flex">
+        {/* Qidiruv qutisi (faqat katta ekranlar uchun) */}
         <div className="relative">
           <input
             type="text"
@@ -36,7 +40,7 @@ function Navbar() {
         </div>
 
         {/* Bildirishnoma belgisi */}
-        <div className="relative">
+        <div className="relative hidden">
           <a
             className="rounded-full inline-block p-2 bg-gray-100 hover:bg-gray-200"
             href=""
@@ -60,7 +64,10 @@ function Navbar() {
 
         {/* Chiqish tugmasi */}
         <div>
-          <a className="rounded-xl inline-block p-2 bg-gray-100 hover:bg-gray-200" href="">
+          <a
+            className="rounded-xl inline-block p-2 bg-gray-100 hover:bg-gray-200"
+            href=""
+          >
             <img src={Logout} alt="logout" className="w-6" />
           </a>
         </div>

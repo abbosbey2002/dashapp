@@ -1,5 +1,7 @@
 import React from "react";
 import FilterDocumentBar from "./FilterDocumentBar";
+import CaretCircleDown from "../assets/img/CaretCircleDown.svg";
+
 
 function DocumentList() {
   const documents = [
@@ -40,8 +42,6 @@ function DocumentList() {
     },
   ];
 
-  
-
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold mb-4">Список документов</h2>
@@ -49,7 +49,11 @@ function DocumentList() {
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto">
           <thead className="bg-gray-50">
-            <tr>
+            <tr className="bg-gray-100">
+              <th>
+                {" "}
+                <input type="checkbox" />{" "}
+              </th>
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
                 Отправитель
               </th>
@@ -70,11 +74,14 @@ function DocumentList() {
           <tbody>
             {documents.map((doc, index) => (
               <tr key={index} className="bg-white border-b hover:bg-gray-50">
-                <td className="p-3 text-sm text-gray-700">{doc.sender}</td>
-                <td className="p-3 text-sm text-blue-600 hover:underline cursor-pointer">
+                <td>
+                  <input type="checkbox" />
+                </td>
+                <td className="p-3 text-sm underline text-gray-700">{doc.sender}</td>
+                <td className="p-3 text-sm hover:underline cursor-pointer">
                   {doc.title}
                 </td>
-                <td className="p-3 text-sm text-gray-700">{doc.recipient}</td>
+                <td className="flex gap-2 p-3 text-sm text-gray-700 underline"><img src={CaretCircleDown} alt="CaretCircleDown" /> {doc.recipient}</td>
                 <td className="p-3 text-sm text-gray-700">{doc.status}</td>
                 <td className="p-3 text-sm text-gray-700">{doc.date}</td>
               </tr>
