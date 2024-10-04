@@ -1,30 +1,99 @@
-import React from "react";
+import React, { useState } from "react";
 import filterIcon from "../assets/img/filter-list.svg";
 import search from "../assets/img/search2.svg";
 
-function FilterDocumentBar() {
-  return (
-    <div className="flex items-center justify-between bg-white p-4 rounded-md shadow-md">
-      {/* Filter button */}
-      <button className="flex items-center gap-1 border border-gray-100 hover:bg-gray-200 text-gray-700 font-normal font-semibold py-2 px-4 rounded-l-lg">
-        {/* icon */}
-        Фильтр
-        <img src={filterIcon} alt="filter icon" className="w-5" />
-      </button>
+function FilterDocumentBar({ onFilterChange, onSearchChange }) {
+  const [filter, setFilter] = useState({
+    status: "",
+    sender: "",
+    recipient: "",
+    date: "",
+  });
 
-      {/* Search input */}
-      <div className="flex items-center relative flex-grow mx-4">
+  const handleFilterChange = (event) => {
+    const { name, value } = event.target;
+    setFilter((prev) => ({ ...prev, [name]: value }));
+    onFilterChange({ ...filter, [name]: value }); // Update filters on change
+  };
+
+  const handleSearchInput = (e) => {
+    onSearchChange(e.target.value);
+  };
+
+  return (
+    <div className="flex items-center gap-3 justify-between bg-white p-4 rounded-md shadow-md">
+      <div className="relative">
+        <button
+          className="flex items-center gap-1 relative border border-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l-lg"
+          onClick={() => setFilter((prev) => ({ ...prev, open: !prev.open }))}
+        >
+          Фильтр
+          <img src={filterIcon} alt="filter icon" className="w-5" />
+        </button>
+
+        <div
+          className={`absolute w-60 bg-white shadow-lg p-4 rounded-lg z-88 ${
+            filter.open ? "" : "hidden"
+          }`}
+        >
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold">Статус</label>
+            <select
+              name="status"
+              value={filter.status}
+              onChange={handleFilterChange}
+              className="border rounded-lg bg-white px-4 py-2 w-full"
+            >
+              <option value="">Выберите статус</option>
+              <option value="В работе">В работе</option>
+              <option value="Отложено">Отложено</option>
+              <option value="Черновик">Черновик</option>
+              <option value="Архив">Архив</option>
+            </select>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold">Отправитель</label>
+            <input
+              name="sender"
+              type="text"
+              value={filter.sender}
+              onChange={handleFilterChange}
+              className="border rounded-lg px-4 py-2 w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold">Дата создания</label>
+            <input
+              name="date"
+              type="date"
+              value={filter.date}
+              onChange={handleFilterChange}
+              className="border rounded-lg px-4 py-2 w-full"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold">На кого отправлен</label>
+            <input
+              name="recipient"
+              type="text"
+              value={filter.recipient}
+              onChange={handleFilterChange}
+              className="border rounded-lg px-4 py-2 w-full"
+            />
+          </div>
+        </div>
+      </div>
+      <div className="flex flex-1 items-center border border-gray-200 rounded-lg p-2">
         <input
           type="text"
           placeholder="Поиск"
-          className="w-full border border-gray-300 rounded-md pl-4 pr-10 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+          onChange={handleSearchInput}
+          className="border-none focus:outline-none flex-1"
         />
-        {/* icon */}
-        <img
-          src={search}
-          alt="search icon"
-          className="absolute right-3 text-gray-400"
-        />
+        <img src={search} alt="search" className="" />
       </div>
     </div>
   );

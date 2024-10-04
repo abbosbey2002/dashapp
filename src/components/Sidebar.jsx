@@ -55,7 +55,10 @@ function Sidebar({ isOpen, toggleMenu }) {
                             : "w-2.5 h-2.5 rounded-full bg-gray-400 mr-2"
                         }
                       ></span>
-                      Все <span className="text-red-500 ml-2">(15)</span>
+                      <div className="flex items-center justify-between w-full">
+                      Все
+                       <span id="documentCount" className="text-red-500 ml-2">(15)</span>
+                      </div>
                     </>
                   )}
                 </NavLink>
