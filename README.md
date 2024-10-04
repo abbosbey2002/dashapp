@@ -17,7 +17,7 @@
 1. **Клонирование репозитория:**
 
    ```bash
-   git clone https://github.com/abbosbey2002/dashapp.git
+   git clone https://repo.thinkgroup.ru/Medical/MisDocManager.git
    cd dashapp
 
 2. **Установка зависимостей:**
