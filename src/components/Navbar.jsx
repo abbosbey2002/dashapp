@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/img/logo.svg";
 import Mask from "../assets/img/Mask.svg";
 import Logout from "../assets/img/li_log-out.svg";
 import notify from "../assets/img/notify.svg";
 import MobileSidebar from "./MobileSidebar"; // Import MobileSidebar
+import FiMenu from "../assets/img/menu.svg";
+import fix from "../assets/img/fix.svg";
 
-function Navbar() {
+function Navbar({ isOpen, toggleMenu }) {
+
+
   return (
     <nav className="bg-white shadow-md px-6 py-3 flex justify-between items-center">
       {/* Logo qismi */}
@@ -14,7 +18,8 @@ function Navbar() {
       </div>
 
       {/* Mobile sidebar */}
-      <MobileSidebar />
+      {/* <MobileSidebar /> */}
+      {/* Mobile sidebar */}
 
       {/* O'ng tomondagi qism */}
       <div className="flex items-center space-x-6 hidden md:flex">
@@ -40,7 +45,7 @@ function Navbar() {
         </div>
 
         {/* Bildirishnoma belgisi */}
-        <div className="relative hidden">
+        <div className="md:flex hidden">
           <a
             className="rounded-full inline-block p-2 bg-gray-100 hover:bg-gray-200"
             href=""
@@ -72,6 +77,13 @@ function Navbar() {
           </a>
         </div>
       </div>
+      <button className="text-3xl p-2 md:hidden" onClick={toggleMenu}>
+          {isOpen ? (
+            <img src={fix} alt="close" />
+          ) : (
+            <img src={FiMenu} alt="menu" />
+          )}
+        </button>
     </nav>
   );
 }
