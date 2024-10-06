@@ -21,18 +21,27 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
   };
 
   return (
-    <div className="flex items-center gap-3 justify-between bg-white p-4 rounded-md shadow-md">
+    <div className="flex items-center md:flex-row-reverse gap-3 justify-between bg-white py-3  shadow-md">
+      <div className="flex flex-1 items-center border border-gray-200 rounded-lg p-2">
+        <input
+          type="text"
+          placeholder="Поиск"
+          onChange={handleSearchInput}
+          className="border-none focus:outline-none flex-1"
+        />
+        <img src={search} alt="search" className="" />
+      </div>
       <div className="relative">
         <button
           className="flex items-center gap-1 relative border border-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l-lg"
           onClick={() => setFilter((prev) => ({ ...prev, open: !prev.open }))}
         >
-          Фильтр
+          <span className="hidden md:inline-block">Фильтр</span>
           <img src={filterIcon} alt="filter icon" className="w-5" />
         </button>
 
         <div
-          className={`absolute w-72 bg-white shadow-lg p-4 rounded-lg z-88 ${
+          className={`absolute w-72 right-0 md:left-0 top-16 bg-white shadow-lg p-4 rounded-lg z-88 ${
             filter.open ? "" : "hidden"
           }`}
         >
@@ -101,15 +110,6 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
             </button>
           </div>
         </div>
-      </div>
-      <div className="flex flex-1 items-center border border-gray-200 rounded-lg p-2">
-        <input
-          type="text"
-          placeholder="Поиск"
-          onChange={handleSearchInput}
-          className="border-none focus:outline-none flex-1"
-        />
-        <img src={search} alt="search" className="" />
       </div>
     </div>
   );

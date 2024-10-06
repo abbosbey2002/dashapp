@@ -6,6 +6,7 @@ import DocumentList from "./components/DocumentList";
 import CreateDocument from "./page/CreateDocument";
 import CreateRoute from "./page/CreateRoute";
 import RouteList from "./page/RouteList";
+import EmployeeList from "./page/EmployeeList";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +26,10 @@ function App() {
             <Route path="document/create" element={<CreateDocument />} />
 
             {/*  */}
-            <Route path="route" element={<RouteList />} />
-            <Route path="route/create" element={<CreateRoute />} />
+            <Route path="directory" element={<RouteList />} />
+            <Route path="directory/create" element={<CreateRoute />} />
+
+            <Route path="employees" element={<EmployeeList />} />
           </Routes>
         </main>
       </div>

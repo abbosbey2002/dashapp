@@ -3,6 +3,7 @@ import FilterDocumentBar from "./FilterDocumentBar";
 import CaretCircleDown from "../assets/img/CaretCircleDown.svg";
 import FileText from "../assets/img/FileText.png";
 import { NavLink, Outlet } from "react-router-dom";
+import CreateItem from "./CreateItem";
 
 function DocumentList() {
   const [documents, setDocuments] = useState([
@@ -83,14 +84,9 @@ function DocumentList() {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-xl font-semibold text-lg">Список документов</h2>
-        <NavLink
-          to="create"
-          className="bg-blue-600 text-white px-4 py-2 flex items-center gap-2 font-bold rounded-lg hover:bg-blue-700 transition-colors"
-        >
-          <img src={FileText} alt="document" /> Создать документ
-        </NavLink>
+      <div className="flex flex-col md:flex-row justify-between gap-3 md:items-center mb-4">
+        <h2 className="font-semibold text-2xl">Список документов</h2>
+        <CreateItem text="Создать документ" to="Create" icon={FileText} />
       </div>
 
       <FilterDocumentBar onFilterChange={handleFilterChange} onSearchChange={handleSearchChange} />
