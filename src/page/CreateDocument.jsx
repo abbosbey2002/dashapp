@@ -10,6 +10,10 @@ import FileUpload from "../components/FileUpload";
 import TextInput from "../components/TextInput"; // TextInput componentini import qilish
 import { NavLink } from "react-router-dom";
 
+import CaretCircleDown from "../assets/img/CaretCircleDown.svg";
+import UploadFile from "../components/UploadFile";
+
+
 function CreateDocument() {
   const [formData, setFormData] = useState({
     sender: "",
@@ -36,8 +40,8 @@ function CreateDocument() {
 
   return (
     <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h1 className="flex items-center gap-2 text-3xl font-semibold mb-6 text-[#040F1F]">
-        <NavLink to="/document">
+      <h1 className="flex items-center gap-2 text-2xl md:text-3xl  font-semibold mb-6 text-[#040F1F]">
+        <NavLink to="/">
           <img src={ArrowCircleLeft} alt="" />
         </NavLink>
         Создание документа
@@ -84,33 +88,10 @@ function CreateDocument() {
               <span className="text-blue-600 border w-[40px] h-[40px] flex justify-center items-center rounded-lg font-bold">
                 01
               </span>
-              <input
-                type="text"
-                name="step1"
-                value={formData.step1}
-                onChange={handleInputChange}
-                placeholder="Выбрать"
-                className="border border-gray-300 rounded-lg px-4 py-2 flex-1"
-              />
-              <button
-                className="w-[40px] h-[40px] border flex justify-center items-center rounded-lg"
-                type="button"
-              >
-                <img src={removesvg} className="img-responsive" alt="Image" />
-              </button>
-            </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-blue-600 border w-[40px] h-[40px] flex justify-center items-center rounded-lg font-bold">
-                02
-              </span>
-              <input
-                type="text"
-                name="step2"
-                value={formData.step2}
-                onChange={handleInputChange}
-                placeholder="Выбрать"
-                className="border border-gray-300 rounded-lg px-4 py-2 flex-1"
-              />
+              <div className="border flex content-center gap-2 border-gray-300 rounded-lg px-4 py-3 flex-1" >
+                <img src={CaretCircleDown} alt="" />
+                    <span className="font-medium text-sm text-[#233357]">Выбрать</span>
+              </div>
               <button
                 className="w-[40px] h-[40px] border flex justify-center items-center rounded-lg"
                 type="button"
@@ -152,22 +133,7 @@ function CreateDocument() {
         <FileUpload />
 
         {/* Priority */}
-        <div className="mb-4">
-          <label className="block text-gray-500 font-medium mb-2">
-            Приоритет документа
-          </label>
-          <select
-            name="priority"
-            value={formData.priority}
-            onChange={handleInputChange}
-            className="border bg-white border-gray-300 rounded-lg px-4 py-2 w-full"
-          >
-            <option value="">Выберите</option>
-            <option value="Низкий">Низкий</option>
-            <option value="Средний">Средний</option>
-            <option value="Высокий">Высокий</option>
-          </select>
-        </div>
+        <UploadFile handleInputChange={handleInputChange} value={formData.priority} />
 
         {/* Buttons */}
         <div className="flex flex-col md:flex-row-reverse gap-3 space-y-2 md:space-y-0 md:space-x-2">

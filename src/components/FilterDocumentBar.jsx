@@ -22,7 +22,7 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
 
   return (
     <div className="flex items-center md:flex-row-reverse gap-3 justify-between bg-white py-3">
-      <div className="flex flex-1 items-center border border-gray-200 rounded-lg p-2">
+      <div className="flex flex-1 items-center border border-gray-200 rounded-lg  p-2">
         <input
           type="text"
           placeholder="Поиск"

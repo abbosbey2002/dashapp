@@ -33,7 +33,7 @@ function Navbar({ isOpen, toggleMenu, className }) {
           <input
             type="text"
             placeholder="Поиск"
-            className="border border-gray-300 rounded-full pl-10 pr-4 py-2 text-sm bg-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="border md:w-96 border-gray-300 rounded-full pl-10 pr-4 py-2 text-sm bg-gray-100 placeholder-gray-500 focus:outline-none"
           />
           <svg
             xmlns="http://www.w3.org/2000/svg"

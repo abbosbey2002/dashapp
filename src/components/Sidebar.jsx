@@ -30,17 +30,19 @@ function Sidebar({isOpen}) {
   const menuItems = [
     {
       name: "Документы",
+      to: "/",
       icon: FileTextBlack,
       activeIcon: FileText,
       key: "documents",
       submenu: [
-        { name: "Все", to: "/document" },
+        { name: "Все", to: "/" },
         { name: "В работе", to: "/in-work" },
         { name: "Отложенные", to: "/postponed" },
       ],
     },
     {
       name: "Сотрудники",
+      to: "employees",
       icon: IdentificationBadge,
       activeIcon: IdentificationBadge_white,
       key: "employees",
@@ -51,11 +53,12 @@ function Sidebar({isOpen}) {
     },
     {
       name: "Маршруты",
+      to: "directory",
       icon: VectorThree,
       activeIcon: VectorThree_white,
       key: "routes",
       submenu: [
-        { name: "Все маршруты", to: "/directory" },
+        { name: "Все маршруты", to: "directory" },
         { name: "Пользовательские маршруты", to: "/routes/custom" },
       ],
     },
@@ -80,6 +83,7 @@ function Sidebar({isOpen}) {
         {menuItems.map((menuItem) => (
           <li key={menuItem.key}>
             <NavLink
+            to={menuItem.to}
               onClick={() => toggleSubmenu(menuItem.key)}
               className={({ isActive }) =>
                 openSubmenus[menuItem.key]

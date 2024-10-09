@@ -8,6 +8,7 @@ import Pagination from "../components/Pagination";
 import Buttonsmall from "../components/Buttonsmall";
 import EditDocument from "../components/EditDocument";
 import Suspend from "../components/action/Suspend";
+import Listaction from "../components/Listaction";
 
 function DocumentList() {
   const [documents, setDocuments] = useState([
@@ -111,7 +112,7 @@ function DocumentList() {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex flex-col md:flex-row justify-between gap-3 md:items-center mb-4">
-        <h2 className="font-semibold text-[#040F1F]  text-[30px]">
+        <h2 className="font-semibold text-[#040F1F] text-2xl  md:text-3xl">
           Список документов
         </h2>
         <CreateItem text="Создать документ" to="Create" icon={FileText} />
@@ -122,12 +123,14 @@ function DocumentList() {
         onSearchChange={handleSearchChange}
       />
 
+      <Listaction />
+
       <div className="overflow-x-auto">
         <table className="min-w-full table-auto border-collapse">
           <thead className="bg-gray-50">
             <tr className="bg-gray-100">
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
-                <input type="checkbox" />
+                <input type="checkbox" className="h-5  w-5" />
               </th>
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
                 Отправитель
@@ -153,7 +156,7 @@ function DocumentList() {
                 className="bg-white border-b last:border-b-0 hover:bg-gray-50"
               >
                 <td className="p-3">
-                  <input type="checkbox" />
+                  <input type="checkbox" className="h-5  w-5" />
                 </td>
                 <td className="p-3 text-sm text-gray-700 underline cursor-pointer">
                   {doc.sender}

@@ -15,27 +15,31 @@ function MenuList({className}) {
   const menuItems = [
     {
       name: "Документы",
+      to: "/",
       icon: FileTextBlack,
       activeIcon: FileText,
       key: "documents",
       submenu: [
-        { name: "Все", to: "/document" },
+        { name: "Все", to: "/" },
         { name: "В работе", to: "/in-work" },
+        { name: "Отложенные", to: "/postponed" },
         { name: "Отложенные", to: "/postponed" },
       ],
     },
     {
       name: "Сотрудники",
+      to : "employees",
       icon: IdentificationBadge,
       activeIcon: IdentificationBadge_white,
       key: "employees",
       submenu: [
-        { name: "Список сотрудников", to: "/employees" },
+        { name: "Список сотрудников", to: "employees" },
         { name: "По отделам", to: "/employee/departments" },
       ],
     },
     {
       name: "Маршруты",
+      to: "directory",
       icon: VectorThree,
       activeIcon: VectorThree_white,
       key: "routes",
@@ -74,6 +78,7 @@ function MenuList({className}) {
       {menuItems.map((menuItem) => (
         <li key={menuItem.key}>
           <NavLink
+          to={menuItem.to}
             onClick={() => toggleSubmenu(menuItem.key)}
             className={({ isActive }) =>
               openSubmenus[menuItem.key]
