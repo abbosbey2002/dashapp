@@ -21,7 +21,7 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
   };
 
   return (
-    <div className="flex items-center md:flex-row-reverse gap-3 justify-between bg-white py-3  shadow-md">
+    <div className="flex items-center md:flex-row-reverse gap-3 justify-between bg-white py-3">
       <div className="flex flex-1 items-center border border-gray-200 rounded-lg p-2">
         <input
           type="text"
@@ -33,10 +33,12 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
       </div>
       <div className="relative">
         <button
-          className="flex items-center gap-1 relative border border-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-l-lg"
+          className="flex items-center gap-1 relative border border-[#DFDFDF] hover:bg-gray-200 text-gray-700 font-extralight py-2 px-4 rounded-l-lg"
           onClick={() => setFilter((prev) => ({ ...prev, open: !prev.open }))}
         >
-          <span className="hidden md:inline-block">Фильтр</span>
+          <span className="hidden text-[#0C1116] text-[14px] md:inline-block">
+            Фильтр
+          </span>
           <img src={filterIcon} alt="filter icon" className="w-5" />
         </button>
 

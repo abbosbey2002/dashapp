@@ -6,12 +6,17 @@ import notify from "../assets/img/notify.svg";
 import MobileSidebar from "./MobileSidebar"; // Import MobileSidebar
 import FiMenu from "../assets/img/menu.svg";
 import fix from "../assets/img/fix.svg";
+import NotificationModal from "./NotificationModal";
 
-function Navbar({ isOpen, toggleMenu }) {
+function Navbar({ isOpen, toggleMenu, className }) {
+
+
+  const [isModalVisible, setModalVisible] = useState(false);
+
 
 
   return (
-    <nav className="bg-white shadow-md px-6 py-3 flex justify-between items-center">
+    <nav className={`bg-white shadow-md px-8 py-3 flex justify-between items-center`}>
       {/* Logo qismi */}
       <div className="flex items-center">
         <img src={logo} alt="Logo" className="w-40" />
@@ -45,13 +50,17 @@ function Navbar({ isOpen, toggleMenu }) {
         </div>
 
         {/* Bildirishnoma belgisi */}
-        <div className="md:flex hidden">
+        <div className="relative md:flex hidden"
+        onMouseEnter={() => setModalVisible(true)}
+        onMouseLeave={() => setModalVisible(false)}
+        >
           <a
             className="rounded-full inline-block p-2 bg-gray-100 hover:bg-gray-200"
             href=""
           >
             <img src={notify} alt="notify" className="w-7 h-7" />
           </a>
+          <NotificationModal isVisible={isModalVisible} />
         </div>
 
         {/* Foydalanuvchi ma'lumotlari */}

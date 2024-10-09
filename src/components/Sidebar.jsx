@@ -74,9 +74,7 @@ function Sidebar({isOpen}) {
 
   return (
     <aside
-        className={`fixed inset-0 md:translate-y-0 translate-y-20 bg-white z-50 p-4 transition-transform transform md:static md:translate-x-0 ${
-          isOpen ? "translate-x-0 w-2/3" : "-translate-x-full"
-        } md:w-64 md:border-r md:block md:p-4`}
+        className={`fixed inset-0 md:translate-y-0 translate-y-20 hidden bg-white z-50 p-4 transition-transform transform md:static md:translate-x-0 md:w-64 md:border-r md:block md:p-4`}
       >
       <ul className="mt-4 space-y-4">
         {menuItems.map((menuItem) => (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Button = ({ text, onClick, type = 'button', variant = 'white', className = '' }) => {
+const Buttoncom = ({ text, onClick, type = 'button', variant = 'white', className = '' }) => {
 
   const baseStyles = 'px-4 py-2 rounded font-bold transition-all duration-300 focus:outline-none';
   const variants = {
@@ -21,4 +21,4 @@ const Button = ({ text, onClick, type = 'button', variant = 'white', className =
   );
 };
 
-export default Button;
+export default Buttoncom;
