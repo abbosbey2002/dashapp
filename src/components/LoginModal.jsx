@@ -7,8 +7,6 @@ const LoginModal = ({ onClose, onSubmit, error }) => {
   const handleLoginChange = (e) => setLogin(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
-  console.log(error);
-
   return (
     <div className="fixed inset-0 z-50 bg-black  bg-opacity-80 flex items-center justify-center">
       <div className="bg-white p-6 w-[80%] sm:w-80 md:w-[420px] rounded shadow-md">

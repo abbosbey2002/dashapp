@@ -14,8 +14,8 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Auth holati uchun holat
   const [showModal, setShowModal] = useState(false);
-  const [username, setUsername] = useState("User123"); // Login input holati
-  const [password, setPassword] = useState("6587995"); // Parol input holati
+  const [username, setUsername] = useState(""); // Login input holati
+  const [password, setPassword] = useState(""); // Parol input holati
   const [error, setError] = useState(""); // Xatolik holati
   const navigate = useNavigate();
 
@@ -32,10 +32,11 @@ function App() {
     }
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = (username, password) => {
     // Statik foydalanuvchi ma'lumotlarini taqqoslash
     const validUsername = "User123";
     const validPassword = "6587995";
+    console.log(username, password);
 
     if (username === validUsername && password === validPassword) {
       // Agar login va parol to'g'ri bo'lsa
