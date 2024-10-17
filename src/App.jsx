@@ -29,13 +29,15 @@ const App = () => {
   const [user, SetUser] = useState({});
 
   useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    setToken(savedToken);
 
-    if (token.length > 5) {
-      setShowModal(false);
+    if (savedToken && savedToken.length > 5) { 
+        setShowModal(false);
     } else {
-      setShowModal(true);
+        setShowModal(true);
     }
-  }, []);
+}, []);
 
   const handleLogin = async () => {
     try {
