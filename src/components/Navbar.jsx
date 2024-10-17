@@ -7,8 +7,9 @@ import MobileSidebar from "./MobileSidebar"; // Import MobileSidebar
 import FiMenu from "../assets/img/menu.svg";
 import fix from "../assets/img/fix.svg";
 import NotificationModal from "./NotificationModal";
+import { data } from "autoprefixer";
 
-function Navbar({ isOpen, toggleMenu, className }) {
+function Navbar({ isOpen, toggleMenu, className, user }) {
 
 
   const [isModalVisible, setModalVisible] = useState(false);
@@ -71,7 +72,7 @@ function Navbar({ isOpen, toggleMenu, className }) {
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="hidden sm:block">
-            <h4 className="text-sm font-semibold">Титов Артем</h4>
+            <h4 className="text-sm font-semibold">{user.first_name} {user.last_name}</h4>
             <span className="text-gray-500 text-sm">Администратор</span>
           </div>
         </div>

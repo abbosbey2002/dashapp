@@ -1,24 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 
-const LoginModal = ({ onClose, onSubmit, error }) => {
-  const [login, setLogin] = useState(""); // Login holati
-  const [password, setPassword] = useState(""); // Parol holati
+const LoginModal = ({ onSubmit, error, setLogin, setPassword, login, password }) => {
 
   const handleLoginChange = (e) => setLogin(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
   return (
-    <div className="fixed inset-0 z-50 bg-black  bg-opacity-80 flex items-center justify-center">
+    <div className="fixed inset-0 z-50 bg-black bg-opacity-80 flex items-center justify-center">
       <div className="bg-white p-6 w-[80%] sm:w-80 md:w-[420px] rounded shadow-md">
         <h2 className="text-[25px] text-center font-medium text-[#040F1F] mb-4">
           Авторизация
         </h2>
-        <p className="text-red-600 text-center text-sm font-medium">{error}</p>
+        {error && <p className="text-red-600 text-center text-sm font-medium">{error}</p>}
         <div className="flex flex-col gap-1 mb-4">
-          <label
-            className="text-[13px] font-bold text-[#556476]"
-            htmlFor="login"
-          >
+          <label className="text-[13px] font-bold text-[#556476]" htmlFor="login">
             Логин
           </label>
           <input
@@ -32,10 +27,7 @@ const LoginModal = ({ onClose, onSubmit, error }) => {
         </div>
 
         <div className="flex flex-col gap-1 mb-4">
-          <label
-            className="text-[13px] font-bold text-[#556476]"
-            htmlFor="password"
-          >
+          <label className="text-[13px] font-bold text-[#556476]" htmlFor="password">
             Пароль
           </label>
           <input
