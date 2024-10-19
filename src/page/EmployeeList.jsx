@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateItem from "../components/CreateItem";
 import FilterDocumentBar from "../components/FilterDocumentBar";
 import Listaction from "../components/Listaction";
@@ -6,43 +6,59 @@ import Buttonsmall from "../components/Buttonsmall";
 import Pagination from "../components/Pagination";
 import PencilSimpleLinedark from "../assets/img/PencilSimpleLinedark.svg";
 import remove from "../assets/img/remove.svg";
+import { getUserList } from "../services/api";
 
 
 
 const EmployeeList = () => {
   // Xodimlar uchun namunaviy ma'lumotlar
-  const employees = [
-    {
-      id: 1,
-      name: "Иванов К.Л.",
-      email: "Ivanov@doc.ru",
-      position: "Нейрохирург",
-    },
-    {
-      id: 2,
-      name: "Сафронов М.Н.",
-      email: "safronov@doc.ru",
-      position: "Хирург",
-    },
-    {
-      id: 3,
-      name: "Петров А.В.",
-      email: "petrov@doc.ru",
-      position: "Терапевт",
-    },
-    {
-      id: 4,
-      name: "Кузнецов Р.О.",
-      email: "kuznetsov@doc.ru",
-      position: "Кардиолог",
-    },
-    {
-      id: 5,
-      name: "Сидоров И.П.",
-      email: "sidorov@doc.ru",
-      position: "Офтальмолог",
-    },
-  ];
+
+  const [employees, setEmployees] = useState([]);
+  const [department, setDepartment] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+
+
+
+
+  const filteredEmployees = () =>{
+    return employees.filter((employee) =>
+      employee.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    employee.last_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+
+  const handleSearchChange = async (e) => {
+  
+     setSearchTerm(e); // Qidiruv uchun kiritilgan matnni saqlash
+    if (searchTerm !== '') {
+      let new_list = await filteredEmployees();
+      setEmployees(new_list);
+    }else{
+      fetchData(department);
+    }
+  };
+
+
+
+
+
+  const fetchData = async (department) => {
+    try {
+      const data = await getUserList(department); // Serverdan xodimlar ro'yxatini olish
+      setEmployees(data); // Olingan ma'lumotlarni state ga saqlash
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  
+  useEffect(() => {
+    
+    fetchData(department); // Ma'lumotlarni olish uchun fetchData chaqirish
+
+  }, []);
+
 
   const [selectedEmployees, setSelectedEmployees] = useState([]);
 
@@ -66,7 +82,7 @@ const EmployeeList = () => {
         {/* <CreateItem text="Добавить сотрудника" to="Create" /> */}
       </div>
 
-      <FilterDocumentBar />
+      <FilterDocumentBar setData={fetchData} onSearchChange={handleSearchChange} />
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center gap-2">
           <Buttonsmall icon={remove} text={"Удалить"} />
@@ -101,19 +117,19 @@ const EmployeeList = () => {
                 <td className="p-3">
                   <input
                   className="h-5 w-5"
-                    type="checkbox"
+                    type="checkbox" 
                     checked={selectedEmployees.includes(employee.id)}
                     onChange={() => toggleEmployeeSelection(employee.id)}
                   />
                 </td>
                 <td className="p-3 text-sm text-gray-700 underline cursor-pointer">
-                  {employee.name}
+                  {employee.first_name} {employee.last_name}
                 </td>
                 <td className="p-3 text-sm text-gray-700 hover:underline cursor-pointer">
                   {employee.email}
                 </td>
                 <td className="p-3 text-sm text-gray-700">
-                  {employee.position}
+                  {employee.post}
                 </td>
               </tr>
             ))}

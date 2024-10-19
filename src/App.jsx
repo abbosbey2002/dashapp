@@ -11,6 +11,9 @@ import LoginModal from "./components/LoginModal";
 import MobileSidebar from "./components/MobileSidebar";
 import { login as apiLogin } from "./services/api";
 
+import {createDocument} from "./services/api";
+import {getUserInfo} from "./services/api"
+
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(true);
@@ -24,20 +27,34 @@ const App = () => {
     setIsOpen(!isOpen);
   };
 
-
-
   const [user, SetUser] = useState({});
 
-  useEffect(() => {
-    const savedToken = localStorage.getItem('token');
-    setToken(savedToken);
 
-    if (savedToken && savedToken.length > 5) { 
-        setShowModal(false);
-    } else {
-        setShowModal(true);
-    }
+useEffect(() => {
+    const fetchUserInfo = async () => {
+        try {
+            const savedToken = localStorage.getItem('token');
+
+            if (savedToken && savedToken.length > 5) {
+                setToken(savedToken);
+
+                const user = await getUserInfo();
+                SetUser(user);
+                setShowModal(false);
+
+            } else {
+                setShowModal(true);
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            setShowModal(true);
+        }
+    };
+
+    fetchUserInfo();
+
 }, []);
+
 
   const handleLogin = async () => {
     try {

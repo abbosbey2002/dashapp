@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import filterIcon from "../assets/img/filter-list.svg";
 import search from "../assets/img/search2.svg";
+import { getDepartments } from "../services/api";
 
-function FilterDocumentBar({ onFilterChange, onSearchChange }) {
+function FilterDocumentBar({ onFilterChange, onSearchChange, setData }) {
+  const [departments, setDepartments] = useState([]);
+
   const [filter, setFilter] = useState({
     status: "",
     sender: "",
@@ -10,10 +13,29 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
     date: "",
   });
 
-  const handleFilterChange = (event) => {
-    const { name, value } = event.target;
-    setFilter((prev) => ({ ...prev, [name]: value }));
-    onFilterChange({ ...filter, [name]: value }); // Update filters on change
+ 
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      try {
+        const datas = await getDepartments(); // Departamentlarni olish
+        setDepartments(datas.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchDepartments(); // Funksiyani chaqirish
+  }, []);
+
+  const [selectedValue, setSelectedValue] = useState("");
+
+  const handleSelectChange = (e) => {
+    setSelectedValue(e.target.value); // Tanlangan qiymatni state ga saqlash
+  };
+
+  const filterdata = () => {
+    setData(selectedValue);
   };
 
   const handleSearchInput = (e) => {
@@ -48,66 +70,31 @@ function FilterDocumentBar({ onFilterChange, onSearchChange }) {
           }`}
         >
           <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">Статус</label>
+            <label className="block text-gray-700 font-semibold">
+              департаменту
+            </label>
             <select
               name="status"
-              value={filter.status}
-              onChange={handleFilterChange}
+              onChange={handleSelectChange}
               className="border rounded-lg font-extralight  bg-white px-4 py-2 w-full"
             >
-              <option value="">Выберите статус</option>
-              <option value="В работе">В работе</option>
-              <option value="Отложено">Отложено</option>
-              <option value="Черновик">Черновик</option>
-              <option value="Архив">Архив</option>
+              <option value="">Все</option>
+              {departments.map((department) => (
+                <option
+                  key={department.departament_id}
+                  value={department.departament_id}
+                >
+                  {department.departament_name}
+                </option>
+              ))}
             </select>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">
-              Отправитель
-            </label>
-            <select
-              name="sender"
-              value={filter.sender}
-              onChange={handleFilterChange}
-              className="border bg-white font-extralight rounded-lg px-4 py-2 w-full"
-            >
-              <option value="">Выберите отправителя</option>
-              {/* Boshqa variantlar shu yerda */}
-              <option value="sender1">Отправитель 1</option>
-              <option value="sender2">Отправитель 2</option>
-            </select>
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">
-              Дата создания
-            </label>
-            <input
-              name="date"
-              type="date"
-              value={filter.date}
-              onChange={handleFilterChange}
-              className="border rounded-lg font-extralight  px-4 py-2 w-full"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 font-semibold">
-              На кого отправлен
-            </label>
-            <input
-              name="recipient"
-              type="text"
-              value={filter.recipient}
-              onChange={handleFilterChange}
-              className="border rounded-lg px-4 py-2 w-full"
-            />
           </div>
 
           <div>
-            <button className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
+            <button
+              onClick={filterdata}
+              className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+            >
               Фильтровать
             </button>
           </div>

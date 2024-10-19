@@ -48,7 +48,6 @@ function Sidebar({isOpen}) {
       key: "employees",
       submenu: [
         { name: "Список сотрудников", to: "/employees" },
-        { name: "По отделам", to: "/employee/departments" },
       ],
     },
     {
