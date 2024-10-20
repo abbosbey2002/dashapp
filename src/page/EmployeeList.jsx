@@ -16,6 +16,7 @@ const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const [department, setDepartment] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectAll, setSelectAll] = useState(false);
 
 
 
@@ -40,9 +41,6 @@ const EmployeeList = () => {
   };
 
 
-
-
-
   const fetchData = async (department) => {
     try {
       const data = await getUserList(department); // Serverdan xodimlar ro'yxatini olish
@@ -54,7 +52,6 @@ const EmployeeList = () => {
   };
   
   useEffect(() => {
-    
     fetchData(department); // Ma'lumotlarni olish uchun fetchData chaqirish
 
   }, []);
@@ -64,6 +61,7 @@ const EmployeeList = () => {
 
   // Xodimni tanlash yoki tanlamaslikni boshqarish
   const toggleEmployeeSelection = (id) => {
+    console.log(id)
     if (selectedEmployees.includes(id)) {
       setSelectedEmployees(
         selectedEmployees.filter((selectedId) => selectedId !== id)
@@ -71,6 +69,29 @@ const EmployeeList = () => {
     } else {
       setSelectedEmployees([...selectedEmployees, id]);
     }
+   
+  };
+
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      // Agar hammasi tanlangan bo'lsa, hammasini olib tashlaymiz
+      setSelectedEmployees([]);
+    } else {
+      // Agar tanlanmagan bo'lsa, barcha xodimlarni qo'shamiz
+      setSelectedEmployees(employees.map(employee => employee.user_id));
+    }
+    setSelectAll(!selectAll); // Hammasini belgilash state'ini yangilash
+  };
+
+
+  const deleteSelectedEmployees = () => {
+    // Tanlangan xodimlarni employees ro'yxatidan olib tashlash
+    const updatedEmployees = employees.filter(
+      (employee) => !selectedEmployees.includes(employee.user_id)
+    );
+    
+    setEmployees(updatedEmployees); // Yangilangan xodimlar ro'yxatini o'rnatish
+    setSelectedEmployees([]); // Tanlangan xodimlar ro'yxatini tozalash
   };
 
   return (
@@ -85,7 +106,7 @@ const EmployeeList = () => {
       <FilterDocumentBar setData={fetchData} onSearchChange={handleSearchChange} />
       <div className="flex items-center justify-between py-4">
         <div className="flex items-center gap-2">
-          <Buttonsmall icon={remove} text={"Удалить"} />
+          <Buttonsmall icon={remove} onClick={deleteSelectedEmployees} text={"Удалить"} />
         </div>
         <Pagination />
       </div>
@@ -95,7 +116,8 @@ const EmployeeList = () => {
           <thead className="bg-gray-50">
             <tr className="bg-gray-100">
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
-                <input type="checkbox" className="h-5  w-5" />
+                <input type="checkbox" className="h-5  w-5"  checked={selectAll} // Hammasini tanlash uchun
+              onChange={toggleSelectAll}  />
               </th>
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
                 ФИО
@@ -111,15 +133,15 @@ const EmployeeList = () => {
           <tbody>
             {employees.map((employee, index) => (
               <tr
-                key={employee.id}
+                key={employee.user_id}
                 className="bg-white border-b last:border-b-0 hover:bg-gray-50"
               >
                 <td className="p-3">
                   <input
                   className="h-5 w-5"
                     type="checkbox" 
-                    checked={selectedEmployees.includes(employee.id)}
-                    onChange={() => toggleEmployeeSelection(employee.id)}
+                    checked={selectedEmployees.includes(employee.user_id)} // Agar tanlangan bo'lsa, checkbox belgilanadi
+                    onChange={() => toggleEmployeeSelection(employee.user_id)}
                   />
                 </td>
                 <td className="p-3 text-sm text-gray-700 underline cursor-pointer">
