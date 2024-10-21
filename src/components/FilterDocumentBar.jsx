@@ -19,7 +19,7 @@ function FilterDocumentBar({ onFilterChange, onSearchChange, setData }) {
     const fetchDepartments = async () => {
       try {
         const datas = await getDepartments(); // Departamentlarni olish
-        setDepartments(datas.data);
+        setDepartments(datas);
       } catch (error) {
         console.log(error.message);
       }

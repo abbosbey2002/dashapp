@@ -2,6 +2,8 @@
 
 import { data } from "autoprefixer";
 import axios from "axios";
+import Departament from "../components/short/Departament";
+import { toast } from "react-toastify";
 
 
 const Api_Url = 'http://dev.spark-mis.ru:8082/api';
@@ -29,9 +31,6 @@ export const login = async (login, password) => {
         if (data.status === "error") {
             throw new Error(data.error); 
         }
-
-
-        console.log(data)
         
         localStorage.setItem('token', data.token);
         const user = await getUserInfo();
@@ -51,12 +50,22 @@ export const login = async (login, password) => {
 
 export const getUserInfo = async () => {
     try {
+        // Keshlangan foydalanuvchi ma'lumotlarini tekshirish
+        const cachedUserInfo = localStorage.getItem('user_info_cache');
+
+        // Agar kesh mavjud bo'lsa va bo'sh bo'lmasa, uni JSON formatida qaytaramiz
+        if (cachedUserInfo) {
+            console.log('Keshlangan foydalanuvchi ma\'lumotlari qaytarildi');
+            return JSON.parse(cachedUserInfo);
+        }
+
         const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
 
         if (!token) {
             throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
         }
 
+        // Foydalanuvchi ma'lumotlarini API orqali olish
         const response = await axios.get(`${Api_Url}/user/info`, {
             headers: {
                 'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
@@ -64,13 +73,18 @@ export const getUserInfo = async () => {
             }
         });
 
-        return response.data; // Foydalanuvchi ma'lumotlarini qaytarish
+        const userInfo = response.data; // Foydalanuvchi ma'lumotlari
+
+        // Foydalanuvchi ma'lumotlarini keshlash, localStorage'ga yozish
+        localStorage.setItem('user_info_cache', JSON.stringify(userInfo));
+
+        return userInfo; // Ma'lumotlarni qaytarish
     } catch (error) {
-        console.error('Error fetching user info:', error);
-        // Xatolik qaytarish uchun optional chaining yordamida to'liqroq xabarni qaytarish
+        console.error('Foydalanuvchi ma\'lumotlarini olishda xatolik:', error);
         throw new Error(error.response?.data?.error || error.message);
     }
 };
+
 
 
 
@@ -139,7 +153,6 @@ export const getUserList = async (departament_id = null) => {
                 }
             }
         );
-        console.log('dates = ', data.data)
         return response.data.data; 
     } catch (error) {
         console.error('Error fetching user list:', error);
@@ -151,7 +164,15 @@ export const getUserList = async (departament_id = null) => {
 
 export const getDepartments = async () => {
     try {
-        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+        const token = localStorage.getItem('token');
+
+        const cachedDepartments = JSON.parse(localStorage.getItem('departments_cache'));
+
+        // Agar kesh mavjud bo'lsa, uni JSON formatida qaytaramiz
+        if (cachedDepartments && cachedDepartments.length > 4) {
+            console.log('Keshlangan ma\'lumot qaytarildi', cachedDepartments);
+            return (cachedDepartments);
+        }
 
         if (!token) {
             throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
@@ -164,13 +185,164 @@ export const getDepartments = async () => {
                 'Accept': 'application/json', // JSON formatini qabul qilish
             }
         });
-
-        console.log(response.data); // Serverdan kelgan ma'lumotlarni ko'rsatish
-        return response.data; // Ma'lumotlarni qaytarish
+        localStorage.setItem('departments_cache', JSON.stringify(response.data.data));
+        return response.data.data; // Ma'lumotlarni qaytarish
 
     } catch (error) {
         console.error('Error fetching departments:', error);
         // Xatolikni qaytarish
         throw new Error(error.response?.data?.error || error.message);
+    }
+};
+
+
+export const createTemplate = async (name, way) => {
+    
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.post(
+            `${Api_Url}/template/manager/create`, 
+            name, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                    'Content-Type': 'application/json', // JSON formatda ma'lumot yuborish
+                }
+            }
+        );
+
+        console.log('response create template', response)
+        console.log(data, "way data")
+        if(response.data.status === "ok"){
+            way.map((value, index, array) => {
+                addway(response.data.template_id, value);
+            })
+        }
+
+        return response.data; // Foydalanuvchi ma'lumotlarini qaytarish
+
+    } catch (error) {
+        if(error.response){
+            return error.response.data;
+        }
+        
+    }
+};
+
+export const addway = async (id = null, data = null) => {
+    console.log(data)
+    
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.put(
+            `${Api_Url}/template/manager/add/${id}`, 
+            data, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                    'Content-Type': 'application/json', // JSON formatda ma'lumot yuborish
+                }
+            }
+        );
+
+        console.log('add way template', response)
+
+        return response.data; // Foydalanuvchi ma'lumotlarini qaytarish
+
+    } catch (error) {
+        // Xatolikni boshqarish
+        console.error('Error creating document:', error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
+};
+
+
+
+
+export const getTemplates = async () => {
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        // GET so'rovi orqali departamentlar ma'lumotini olish
+        const response = await axios.get(`${Api_Url}/directory/templates`, {
+            headers: {
+                'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                'Accept': 'application/json', // JSON formatini qabul qilish
+            }
+        });
+        return response.data.data; // Ma'lumotlarni qaytarish
+
+    } catch (error) {
+        console.error('Error fetching departments:', error);
+        // Xatolikni qaytarish
+        throw new Error(error.response?.data?.error || error.message);
+    }
+};
+
+
+export const getSingleTemplate = async (id = 23) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            // Token mavjud bo'lmasa, xatolikni qaytaramiz
+            return Promise.reject('Token mavjud emas. Iltimos, tizimga kiring.');
+        }
+
+        const response = await axios.get(`${Api_Url}/template/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            }
+        });
+
+        return response.data;
+
+    } catch (error) {
+        console.error('Template ma\'lumotlarini olishda xatolik:', error);
+        // Xatolikda tushunarli xabarni qaytarish
+        throw new Error(error.response?.data?.error || 'Template ma\'lumotlarini olishda xatolik yuz berdi');
+    }
+};
+
+
+export const deleteTemplate = async (template_id) => {
+    try {
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            // Token mavjud bo'lmasa, xatolikni qaytaramiz
+            return Promise.reject('Token mavjud emas. Iltimos, tizimga kiring.');
+        }
+
+        // DELETE so'rovi orqali ma'lumotni o'chirish
+        const response = await axios.delete(`${Api_Url}/template/manager/delete/${template_id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/json',
+            }
+        });
+
+        return response.data; // O'chirish natijasini qaytarish
+    } catch (error) {
+        console.error('Template o\'chirishda xatolik:', error);
+        // Xatolikda tushunarli xabarni qaytarish
+        throw new Error(error.response?.data?.error || 'Template o\'chirishda xatolik yuz berdi');
     }
 };

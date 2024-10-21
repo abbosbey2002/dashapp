@@ -43,8 +43,8 @@ const EmployeeList = () => {
 
   const fetchData = async (department) => {
     try {
-      const data = await getUserList(department); // Serverdan xodimlar ro'yxatini olish
-      setEmployees(data); // Olingan ma'lumotlarni state ga saqlash
+      const data = await getUserList(department);
+      setEmployees(data);
 
     } catch (error) {
       console.log(error)
@@ -61,7 +61,7 @@ const EmployeeList = () => {
 
   // Xodimni tanlash yoki tanlamaslikni boshqarish
   const toggleEmployeeSelection = (id) => {
-    console.log(id)
+
     if (selectedEmployees.includes(id)) {
       setSelectedEmployees(
         selectedEmployees.filter((selectedId) => selectedId !== id)

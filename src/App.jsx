@@ -14,6 +14,9 @@ import { login as apiLogin } from "./services/api";
 import {createDocument} from "./services/api";
 import {getUserInfo} from "./services/api"
 
+import { ToastContainer } from 'react-toastify';
+
+
 const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(true);
@@ -72,11 +75,12 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen flex flex-col">
+       <ToastContainer />
       <Navbar isOpen={isOpen} user={user} toggleMenu={toggleMenu} />
       <div className="flex flex-1">
         <Sidebar isOpen={isOpen} toggleMenu={toggleMenu} />
         <MobileSidebar isOpen={isOpen} toggleMenu={toggleMenu} />
-        <main className="flex-1 md:p-6 pt-6 bg-gray-100 overflow-scroll">
+        <main className="flex-1 md:p-6 pt-6 bg-gray-100 overflow-y-scroll max-h-[93vh]">
           <Routes>
             <Route
               path="/"

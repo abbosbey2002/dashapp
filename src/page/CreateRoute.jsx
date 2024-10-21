@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import ArrowCircleLeft from "../assets/img/ArrowCircleLeft.svg";
 import trash from "../assets/img/Trash.svg";
 import PlusSquare from "../assets/img/PlusSquare.svg";
@@ -8,19 +8,31 @@ import VectorThreebluesmall from "../assets/img/VectorThreebluesmall.svg";
 import TextInput from "../components/TextInput";
 import SelectInput from "../components/SelectInput"; // SelectInputni import qilamiz
 import Buttoncom from "../components/Buttoncom";
+import DepartamentsSelect from "../components/DepartamentsSelect";
+import UsersSelect from "../components/UserSelect";
+import { createTemplate } from "../services/api";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function CreateRoute() {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    routeName: "",
-    creator: "",
-    signingPosition: "",
-    signingDepartment: "",
+    name: "",
   });
+
+
+  useEffect(()=>{
+    console.log('mashrute', formData);
+  
+  }, [])
 
   const [template, setTemplate] = useState(false)
 
   const [routes, setRoutes] = useState([
-    { position: "", department: "", approvalPosition: "" },
+    { to_user_id: null, to_departament_id: "", waiting_answer_id: "" },
   ]);
 
   const handleInputChange = (e) => {
@@ -42,8 +54,10 @@ function CreateRoute() {
   const addRoute = () => {
     setRoutes([
       ...routes,
-      { position: "", department: "", approvalPosition: "" },
+      { to_user_id: "", to_departament_id: "", waiting_answer_id: "" },
     ]);
+
+    console.log(routes);
   };
 
   const choosethemplate = () =>{
@@ -59,15 +73,24 @@ function CreateRoute() {
     setRoutes(updatedRoutes);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData, routes);
+  const handleSubmit = async () => {
+    let res =await createTemplate(formData, routes);
+    console.log('hi tere', res.error)
+    toast(res.error);
+    if(res.status == 'ok'){
+      navigate('/directory');
+    }else{
+    }
   };
+
+  function add(){
+    console.log('add')
+  }
 
   return (
     <div className="mx-auto p-6 bg-white shadow-md rounded-lg">
       <h1 className="flex items-center gap-2 text-2xl md:text-3xl font-semibold mb-6 text-[#040F1F]">
-        <NavLink to="/route">
+        <NavLink to="/directory">
           <img src={ArrowCircleLeft} alt="" />
         </NavLink>
         Создание маршрута
@@ -77,8 +100,8 @@ function CreateRoute() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <TextInput
             label="Название маршрута"
-            name="routeName"
-            value={formData.routeName}
+            name="name"
+            value={formData.name}
             onChange={handleInputChange}
             placeholder="Введите"
           />
@@ -95,42 +118,32 @@ function CreateRoute() {
         {routes.map((route, index) => (
           <div key={index} className="">
             {/* Должность и Подразделение */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <TextInput
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-3 mb-4">
+              <UsersSelect
                 label="Должность"
-                name="position"
-                value={route.position}
-                onChange={(e) => handleRouteChange(index, e)}
-                placeholder="Введите"
+                name="to_user_id"
+                value={route.to_user_id}
+                onChange={() => add()}
+                placeholder="Выберите список"
               />
-              <SelectInput
+
+              <DepartamentsSelect
                 label="Подразделение"
-                name="department"
-                value={route.department}
+                name="to_departament_id"
+                value={route.to_departament_id}
                 onChange={(e) => handleRouteChange(index, e)}
-                options={["Отдел 1", "Отдел 2"]}
                 placeholder="Выберите список"
               />
             </div>
 
             {/* Согласовывает маршрут */}
-            <SelectInput
+            <DepartamentsSelect
               label="Согласовывает маршрут"
-              name="approvalPosition"
-              value={route.approvalPosition}
+              name="waiting_answer_id"
+              value={route.waiting_answer_id}
               onChange={(e) => handleRouteChange(index, e)}
-              options={["Согласователь 1", "Согласователь 2"]}
               placeholder="Выберите список"
             />
-
-            {/* Удалить маршрут */}
-            {/* <button
-              type="button"
-              className="text-red-600 flex items-center space-x-1"
-              onClick={() => removeRoute(index)}
-            >
-              <img src={trash} alt="Trash Icon" /> <span>Удалить</span>
-            </button> */}
           </div>
         ))}
 
@@ -161,42 +174,10 @@ function CreateRoute() {
           
         </div>
 
-        {/* Добавить - Должность и Подразделение */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <TextInput
-            label="Должность"
-            name="signingPosition"
-            value={formData.signingPosition}
-            onChange={handleInputChange}
-            placeholder="Введите"
-          />
-          <SelectInput
-            label="Подразделение"
-            name="signingDepartment"
-            value={formData.signingDepartment}
-            onChange={handleInputChange}
-            options={["Отдел 1", "Отдел 2"]}
-            placeholder="Выберите список"
-          />
-        </div>
 
         <div className="flex flex-col md:flex-row-reverse items-stretch gap-3 space-y-2 md:space-y-0 md:space-x-2">
-          <Buttoncom text="Создать" icon={PlusSquare} variant="primary" />
-          <Buttoncom text="Создать" icon={trash} variant="borderblue" />
-          {/* <button
-            type="submit"
-            className="bg-blue-500 flex items-center gap-1 text-white px-4 py-2 rounded-md w-full md:w-auto hover:bg-blue-700 transition"
-          >
-            <img src={PlusSquare} alt="" />
-            <span className="text-white">Создать</span>
-          </button>
-          <button
-            type="button"
-            className="border-2 flex items-center gap-1 border-blue-500 border-spacing-4 px-4 py-2 rounded-lg w-full md:w-auto transition"
-          >
-            <img src={trash} alt="" />
-            <span className="text-blue-950">Удалить</span>
-          </button> */}
+          <Buttoncom text="Создать" onClick={handleSubmit} icon={PlusSquare} variant="primary" />
+          <Buttoncom text="Remove" icon={trash} variant="borderblue" />
         </div>
       </form>
     </div>

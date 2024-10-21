@@ -54,7 +54,7 @@ function DocumentList() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleFilterChange = (filters) => {
-    console.log("Filters applied: ", filters);
+    console
     setFilteredDocuments(
       documents.filter((doc) => {
         return (
@@ -72,7 +72,7 @@ function DocumentList() {
   };
 
   const handleSearchChange = (query) => {
-    console.log("Search query: ", query);
+    
     setFilteredDocuments(
       documents.filter((doc) => {
         return (
