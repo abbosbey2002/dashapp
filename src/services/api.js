@@ -20,27 +20,27 @@ export const login = async (login, password) => {
             { login, password },
             {
                 headers: {
-                    'Content-Type': 'application/json', 
-                    'Accept': 'application/json', 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
                 }
             }
         );
 
         let data = response.data;
-        
+
         if (data.status === "error") {
-            throw new Error(data.error); 
+            throw new Error(data.error);
         }
-        
+
         localStorage.setItem('token', data.token);
         const user = await getUserInfo();
 
-         data = {
+        data = {
             ...data,
             user: user
         };
         token = data.token;
-        return data; 
+        return data;
     } catch (error) {
         throw new Error(error.response ? error.response.data.error : error.message); // Xatolikni qaytarish
     }
@@ -92,7 +92,7 @@ export const logout = () => {
     localStorage.removeItem('userToken');
 };
 
-
+// document 
 
 export const createDocument = async () => {
 
@@ -100,7 +100,7 @@ export const createDocument = async () => {
     const data = {
         name: "jbvfdsb"
     };
-    
+
     try {
         const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
 
@@ -109,8 +109,8 @@ export const createDocument = async () => {
         }
 
         const response = await axios.post(
-            `${Api_Url}/document/create`, 
-            data, 
+            `${Api_Url}/document/create`,
+            data,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
@@ -132,6 +132,47 @@ export const createDocument = async () => {
 };
 
 
+export const getDocumentList = async () => {
+    // So'rov uchun bodyni yaratish
+    const data = {
+        find_by: "",
+        is_deleted: true,
+        is_processed: true,
+        processing: true,
+        status_id: 0
+    };
+
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.post(
+            `${Api_Url}/document/list`,
+            data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                    'Content-Type': 'application/json', // JSON formatda ma'lumot yuborish
+                }
+            }
+        );
+
+        return response.data.data; // Hujjatlar ro'yxatini qaytarish
+
+    } catch (error) {
+        // Xatolikni boshqarish
+        console.error('Error fetching document list:', error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
+};
+
+
+
+// end document 
 
 export const getUserList = async (departament_id = null) => {
     try {
@@ -144,7 +185,7 @@ export const getUserList = async (departament_id = null) => {
         }
 
         const response = await axios.post(
-            `${Api_Url}/manager/user/list`, 
+            `${Api_Url}/manager/user/list`,
             body,
             {
                 headers: {
@@ -153,11 +194,26 @@ export const getUserList = async (departament_id = null) => {
                 }
             }
         );
-        return response.data.data; 
+        return response.data.data;
     } catch (error) {
         console.error('Error fetching user list:', error);
         throw new Error(error.response?.data?.error || error.message);
     }
+};
+
+export const getUserByid = async (id = null) => {
+    let users = await getUserList();
+
+    // ID orqali foydalanuvchini qidirish
+    const user = users.find(user => user.user_id === id);
+
+    if (!user) {
+        console.log('Foydalanuvchi topilmadi');
+        return null;
+    }
+    console.log('Topilgan foydalanuvchi:', user); // Topilgan foydalanuvchini ko'rsatish
+    return user
+
 };
 
 
@@ -195,9 +251,24 @@ export const getDepartments = async () => {
     }
 };
 
+export const getDepartamentByid = async (id = null) => {
+    let departaments = await getDepartments();
+
+    // ID orqali foydalanuvchini qidirish
+    const departament = departaments.find(departaments => departaments.departament_id === id);
+
+    if (!departament) {
+        console.log('departament topilmadi');
+        return null;
+    }
+    console.log('Topilgan foydalanuvchi:', departament); // Topilgan foydalanuvchini ko'rsatish
+    return departament
+
+};
+
 
 export const createTemplate = async (name, way) => {
-    
+
     try {
         const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
 
@@ -206,8 +277,8 @@ export const createTemplate = async (name, way) => {
         }
 
         const response = await axios.post(
-            `${Api_Url}/template/manager/create`, 
-            name, 
+            `${Api_Url}/template/manager/create`,
+            name,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
@@ -219,7 +290,7 @@ export const createTemplate = async (name, way) => {
 
         console.log('response create template', response)
         console.log(data, "way data")
-        if(response.data.status === "ok"){
+        if (response.data.status === "ok") {
             way.map((value, index, array) => {
                 addway(response.data.template_id, value);
             })
@@ -228,16 +299,16 @@ export const createTemplate = async (name, way) => {
         return response.data; // Foydalanuvchi ma'lumotlarini qaytarish
 
     } catch (error) {
-        if(error.response){
+        if (error.response) {
             return error.response.data;
         }
-        
+
     }
 };
 
 export const addway = async (id = null, data = null) => {
     console.log(data)
-    
+
     try {
         const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
 
@@ -246,8 +317,8 @@ export const addway = async (id = null, data = null) => {
         }
 
         const response = await axios.put(
-            `${Api_Url}/template/manager/add/${id}`, 
-            data, 
+            `${Api_Url}/template/manager/add/${id}`,
+            data,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FilterDocumentBar from "../components/FilterDocumentBar";
 import CaretCircleDown from "../assets/img/CaretCircleDown.svg";
 import FileText from "../assets/img/FileText.png";
@@ -9,52 +9,37 @@ import Buttonsmall from "../components/Buttonsmall";
 import EditDocument from "../components/EditDocument";
 import Suspend from "../components/action/Suspend";
 import Listaction from "../components/Listaction";
+import { getDocumentList, getUserByid } from "../services/api";
+import { format } from "date-fns";
+import UserTableItem from "../components/UserTableItem";
+import SingleDepartament from "../components/SingleDepartament";
 
 function DocumentList() {
-  const [documents, setDocuments] = useState([
-    {
-      sender: "Иванов К.Л.",
-      title: "Купить лабораторное оборудование",
-      recipient: "Бухгалтерия",
-      status: "В работе",
-      date: "21.03.2024",
-    },
-    {
-      sender: "Сафронов М.Н.",
-      title: "Бухгалтерский баланс за III квартал",
-      recipient: "Бухгалтерия",
-      status: "Отложено",
-      date: "12.03.2024",
-    },
-    {
-      sender: "Иванов А.В.",
-      title: "Акт сверки взаиморасчетов с контрагентами",
-      recipient: "Бухгалтерия",
-      status: "В работе",
-      date: "07.07.2024",
-    },
-    {
-      sender: "Петров С.И.",
-      title: "Расчет налоговых обязательств за полугодие",
-      recipient: "Бухгалтерия",
-      status: "Черновик",
-      date: "19.09.2024",
-    },
-    {
-      sender: "Кузнецов Р.О.",
-      title: "Ведомость начисления заработной платы за сентябрь",
-      recipient: "Архив",
-      status: "Архив",
-      date: "30.12.2024",
-    },
-  ]);
+  const [documents, setDocuments] = useState([]);
+
+  const getdocuments = async () => {
+    let response = await getDocumentList();
+
+    setDocuments(response);
+    setFilteredDocuments(response)
+    console.log("list doc  = ", response);
+    return response;
+  };
+
+  useEffect(() => {
+    getdocuments();
+  }, []);
+
+  const formatDate = (date) => {
+    return format(new Date(date), "dd MMMM yyyy");
+  };
 
   const [filteredDocuments, setFilteredDocuments] = useState(documents);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleFilterChange = (filters) => {
-    console
+    console;
     setFilteredDocuments(
       documents.filter((doc) => {
         return (
@@ -72,14 +57,10 @@ function DocumentList() {
   };
 
   const handleSearchChange = (query) => {
-    
     setFilteredDocuments(
       documents.filter((doc) => {
         return (
-          doc.sender.toLowerCase().includes(query.toLowerCase()) ||
-          doc.title.toLowerCase().includes(query.toLowerCase()) ||
-          doc.recipient.toLowerCase().includes(query.toLowerCase()) ||
-          doc.status.toLowerCase().includes(query.toLowerCase())
+          doc.name.toLowerCase().includes(query.toLowerCase())
         );
       })
     );
@@ -107,7 +88,6 @@ function DocumentList() {
 
   const openPostponeModal = () => setPostponeModalOpen(true);
   const closePostponeModal = () => setPostponeModalOpen(false);
-
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -159,13 +139,13 @@ function DocumentList() {
                   <input type="checkbox" className="h-5  w-5" />
                 </td>
                 <td className="p-3 text-sm text-gray-700 underline cursor-pointer">
-                  {doc.sender}
+                  <UserTableItem userId={doc.from_user_id} />
                 </td>
                 <td
                   onClick={() => handleDocumentClick(doc)}
                   className="p-3 text-sm text-blue-600 hover:underline cursor-pointer"
                 >
-                  {doc.title}
+                  {doc.name}
                 </td>
                 <td className="p-3 text-sm flex items-center text-gray-700">
                   <img
@@ -174,25 +154,25 @@ function DocumentList() {
                     className="w-4 h-4 mr-2"
                   />
                   <span className="underline cursor-pointer">
-                    {doc.recipient}
+                    <SingleDepartament departamentId={doc.to_departament_id} />
                   </span>
                 </td>
                 <td
                   className={`p-3 text-sm font-medium ${
-                    doc.status === "В работе"
+                    doc.status_id === "В работе"
                       ? "text-blue-600"
-                      : doc.status === "Отложено"
+                      : doc.status_id === "Отложено"
                       ? "text-yellow-500"
-                      : doc.status === "Архив"
+                      : doc.status_id === "Архив"
                       ? "text-gray-500"
-                      : doc.status === "Черновик"
+                      : doc.status_id === "Черновик"
                       ? "text-red-500"
                       : ""
                   }`}
                 >
-                  {doc.status}
+                  {doc.status_id}
                 </td>
-                <td className="p-3 text-sm text-gray-700">{doc.date}</td>
+                <td className="p-3 text-sm text-gray-700">{formatDate(doc.date_create)}</td>
               </tr>
             ))}
           </tbody>
@@ -209,8 +189,7 @@ function DocumentList() {
         />
       )}
 
-    <Suspend isOpen={isPostponeModalOpen} />
-
+      <Suspend isOpen={isPostponeModalOpen} />
     </div>
   );
 }
