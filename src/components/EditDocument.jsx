@@ -4,11 +4,7 @@ import Comment from "./Comment";
 import Postpone from "./Postpone";
 
 const EditDocument = ({ isOpen, onClose, document }) => {
-
-  const [document, setDocument] = useState({})
-
-  useEffect(()=>)
-
+  
 
   const [activeModal, setActiveModal] = useState("edit"); // Faol modalni boshqarish uchun
   const [text, setText] = useState(document?.text || ""); // EditModal uchun
@@ -21,18 +17,18 @@ const EditDocument = ({ isOpen, onClose, document }) => {
     setActiveModal("comment");
   };
 
-  
-
   const handlePostpone = () => {
     setActiveModal("postpone");
-  }
+  };
 
   if (activeModal === "comment") {
     return <Comment handleEditClick={handleEditClick} />;
   } else if (activeModal === "edit") {
-    return <Editdoc handleComment={handleComment} handlePostpone={handlePostpone} />;
-  }else if("postpone" === activeModal){
-    return <Postpone handleEditClick={handleEditClick} />
+    return (
+      <Editdoc handleComment={handleComment} handlePostpone={handlePostpone} />
+    );
+  } else if ("postpone" === activeModal) {
+    return <Postpone handleEditClick={handleEditClick} />;
   }
 
   return <></>;
