@@ -171,6 +171,35 @@ export const getDocumentList = async () => {
 };
 
 
+export const getDocumentById = async (id) => {
+  try {
+    const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+    if (!token) {
+      throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+    }
+
+    const response = await axios.get(
+      `${Api_Url}/document/${id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+          'Accept': 'application/json', // JSON formatini qabul qilish
+        }
+      }
+    );
+
+    return response.data; // Hujjat ma'lumotlarini qaytarish
+
+  } catch (error) {
+    // Xatolikni boshqarish
+    console.error('Error fetching document by ID:', error);
+    throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+  }
+};
+
+
+
 
 // end document 
 

@@ -60,6 +60,7 @@ useEffect(() => {
 
 
   const handleLogin = async () => {
+    setShowModal(false);
     try {
       const data = await apiLogin(login, password);
       setToken(data.token);

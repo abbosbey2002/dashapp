@@ -184,7 +184,7 @@ function DocumentList() {
         <EditDocument
           isOpen={isModalOpen}
           onClose={() => setModalOpen(false)}
-          document={selectedDocument}
+          DocId={selectedDocument.document_id}
           openPostponeModal={openPostponeModal}
         />
       )}

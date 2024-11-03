@@ -6,7 +6,7 @@ import PencilSimpleLine from "../assets/img/PencilSimpleLine.svg";
 import FileText  from "../assets/img/FileText.png";
 
 
-const Editdoc = ({ handleComment, handlePostpone }) => {
+const Editdoc = ({ handleComment, handlePostpone, document }) => {
   return (
     <div className="fixed inset-0 overflow-auto py-3 h-200px  bg-black bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-white p-6  rounded-lg shadow-lg w-[90%] overflow-scroll md:w-[600px]">
@@ -25,9 +25,9 @@ const Editdoc = ({ handleComment, handlePostpone }) => {
             placeholder="Какой-то текст"
             className="mt-1 block w-full p-2 rounded-md border-gray-300 border outline-none shadow-sm  focus:ring-indigo-500 sm:text-sm"
             rows="3"
-            // Pass the document title as default text
-          />
-        </label>
+            value={document.content}
+           /> 
+         </label>
 
         <button className="my-4 text-sm text-[#2F80ED] flex gap-1 font-semibold">
           <img src={PencilSimpleLine} alt="edit" /> Редактировать
