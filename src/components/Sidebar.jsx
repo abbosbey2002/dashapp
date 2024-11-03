@@ -7,8 +7,7 @@ import VectorThree from "../assets/img/VectorThree.svg";
 import VectorThree_white from "../assets/img/VectorThree_white.svg";
 import IdentificationBadge_white from "../assets/img/IdentificationBadge_white.svg";
 
-function Sidebar({isOpen}) {
-
+function Sidebar({ isOpen }) {
   const [openSubmenus, setOpenSubmenus] = useState({});
 
   useEffect(() => {
@@ -38,6 +37,11 @@ function Sidebar({isOpen}) {
         { name: "Все", to: "/" },
         { name: "В работе", to: "/in-work" },
         { name: "Отложенные", to: "/postponed" },
+        { name: "Завершенные", to: "/completed" },
+        { name: "Черновики", to: "/drafts" },
+        { name: "Требуют внимания", to: "/attention" },
+        { name: "Требуют обработки", to: "/processing" },
+        { name: "Обработанные", to: "/processed" },
       ],
     },
     {
@@ -46,9 +50,7 @@ function Sidebar({isOpen}) {
       icon: IdentificationBadge,
       activeIcon: IdentificationBadge_white,
       key: "employees",
-      submenu: [
-        { name: "Список сотрудников", to: "/employees" },
-      ],
+      submenu: [{ name: "Список сотрудников", to: "/employees" }],
     },
     {
       name: "Маршруты",
@@ -76,13 +78,13 @@ function Sidebar({isOpen}) {
 
   return (
     <aside
-        className={`fixed inset-0 md:translate-y-0 translate-y-20 hidden bg-white z-50 p-4 transition-transform transform md:static md:translate-x-0 md:w-64 md:border-r md:block md:p-4`}
-      >
+      className={`fixed inset-0 md:translate-y-0 translate-y-20 hidden bg-white z-50 p-4 transition-transform transform md:static md:translate-x-0 md:w-64 md:border-r md:block md:p-4`}
+    >
       <ul className="mt-4 space-y-4">
         {menuItems.map((menuItem) => (
           <li key={menuItem.key}>
             <NavLink
-            to={menuItem.to}
+              to={menuItem.to}
               onClick={() => toggleSubmenu(menuItem.key)}
               className={({ isActive }) =>
                 openSubmenus[menuItem.key]

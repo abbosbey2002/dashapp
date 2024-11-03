@@ -3,10 +3,14 @@ import Buttoncom from "./Buttoncom";
 import { NavLink } from "react-router-dom";
 import FileArrowDown from "../assets/img/FileArrowDown.svg";
 import PencilSimpleLine from "../assets/img/PencilSimpleLine.svg";
-import FileText  from "../assets/img/FileText.png";
+import FileText from "../assets/img/FileText.png";
 
-
-const Editdoc = ({ handleComment, handlePostpone, document }) => {
+const Editdoc = ({
+  handleComment,
+  handlePostpone,
+  document,
+  handeleSubcribe,
+}) => {
   return (
     <div className="fixed inset-0 overflow-auto py-3 h-200px  bg-black bg-opacity-80 flex justify-center items-center z-50">
       <div className="bg-white p-6  rounded-lg shadow-lg w-[90%] overflow-scroll md:w-[600px]">
@@ -26,8 +30,8 @@ const Editdoc = ({ handleComment, handlePostpone, document }) => {
             className="mt-1 block w-full p-2 rounded-md border-gray-300 border outline-none shadow-sm  focus:ring-indigo-500 sm:text-sm"
             rows="3"
             value={document.content}
-           /> 
-         </label>
+          />
+        </label>
 
         <button className="my-4 text-sm text-[#2F80ED] flex gap-1 font-semibold">
           <img src={PencilSimpleLine} alt="edit" /> Редактировать
@@ -77,24 +81,35 @@ const Editdoc = ({ handleComment, handlePostpone, document }) => {
             variant="primary"
             className={"w-full"}
             text={"Подписать"}
+            onClick={() => handeleSubcribe(2)}
           />
           <Buttoncom
             variant="primary"
             className={"w-full"}
             text={"Соглосовать"}
+            onClick={() => handeleSubcribe(1)}
           />
           <Buttoncom
             variant=""
             className={
               "w-full border-2 border-blue-600 text-blue-600 font-medium"
             }
-            text={"Соглосовать"}
+            text={"исполнение"}
+            onClick={() => handeleSubcribe(3)}
+          />
+          <Buttoncom
+            variant=""
+            className={
+              "w-full border-2 border-blue-600 text-blue-600 font-medium"
+            }
+            text={"отклонение"}
+            onClick={() => handeleSubcribe(5)}
           />
           <div className="flex flex-col md:flex-row gap-2">
             <Buttoncom
               variant=""
               onClick={handlePostpone}
-              className="w-full border-2 font-medium"
+              className="w-full border-2 cursor-pointer font-medium"
               text={"Отложить до"}
             />
             <Buttoncom

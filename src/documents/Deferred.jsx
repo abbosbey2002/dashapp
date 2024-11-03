@@ -9,17 +9,22 @@ import Buttonsmall from "../components/Buttonsmall";
 import EditDocument from "../components/EditDocument";
 import Suspend from "../components/action/Suspend";
 import Listaction from "../components/Listaction";
-import { deleteDocument, getDocumentList, getUserByid } from "../services/api";
+import { getDocumentList, getUserByid } from "../services/api";
 import { format } from "date-fns";
-import remove from "../assets/img/remove.svg";
 import UserTableItem from "../components/UserTableItem";
 import SingleDepartament from "../components/SingleDepartament";
 
-function DocumentList() {
+function Deferred() {
   const [documents, setDocuments] = useState([]);
 
   const getdocuments = async () => {
-    let response = await getDocumentList();
+    let data = {
+      is_processed: true,
+      processing: true,
+      status_id: 4,
+    };
+    console.log(data, "data");
+    let response = await getDocumentList(data);
 
     setDocuments(response);
     setFilteredDocuments(response);
@@ -88,39 +93,6 @@ function DocumentList() {
   const openPostponeModal = () => setPostponeModalOpen(true);
   const closePostponeModal = () => setPostponeModalOpen(false);
 
-  const [selectedDocuments, setselectedDocuments] = useState([]);
-
-  const [selectAll, setSelectAll] = useState(false);
-
-  const toggleSelectAll = () => {
-    if (selectAll) {
-      // Agar hammasi tanlangan bo'lsa, hammasini olib tashlaymiz
-      setselectedDocuments([]);
-    } else {
-      // Agar tanlanmagan bo'lsa, barcha xodimlarni qo'shamiz
-      setselectedDocuments(documents.map((item) => item.document_id));
-    }
-    setSelectAll(!selectAll); // Hammasini belgilash state'ini yangilash
-  };
-
-  const toggleDocumentSelection = (id) => {
-    if (selectedDocuments.includes(id)) {
-      setselectedDocuments(
-        selectedDocuments.filter((selectedId) => selectedId !== id)
-      );
-    } else {
-      setselectedDocuments([...selectedDocuments, id]);
-    }
-  };
-
-
-  const removeDocuments = async () => {
-    selectedDocuments.map((value, index, array) => {
-      deleteDocument(value);
-    })
-    
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex flex-col md:flex-row justify-between gap-3 md:items-center mb-4">
@@ -135,7 +107,6 @@ function DocumentList() {
         onSearchChange={handleSearchChange}
       />
 
-      <Buttonsmall icon={remove} onClick={removeDocuments} text="Удалить" />
       <Listaction />
 
       <div className="overflow-x-auto">
@@ -143,12 +114,7 @@ function DocumentList() {
           <thead className="bg-gray-50">
             <tr className="bg-gray-100">
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
-                <input
-                  type="checkbox"
-                  onChange={toggleSelectAll}
-                  checked={selectAll}
-                  className="h-5  w-5"
-                />
+                <input type="checkbox" className="h-5  w-5" />
               </th>
               <th className="p-3 text-left text-sm font-semibold text-gray-600">
                 Отправитель
@@ -174,13 +140,7 @@ function DocumentList() {
                 className="bg-white border-b last:border-b-0 hover:bg-gray-50"
               >
                 <td className="p-3">
-                  <input
-                    type="checkbox"
-                    className="h-5  w-5"
-                    id={`item${doc.document_id}`}
-                    onChange={() => toggleDocumentSelection(doc.document_id)}
-                    checked={selectedDocuments.includes(doc.document_id)}
-                  />
+                  <input type="checkbox" className="h-5  w-5" />
                 </td>
                 <td className="p-3 text-sm text-gray-700 underline cursor-pointer">
                   <UserTableItem userId={doc.from_user_id} />
@@ -240,4 +200,4 @@ function DocumentList() {
   );
 }
 
-export default DocumentList;
+export default Deferred;

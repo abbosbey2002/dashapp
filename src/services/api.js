@@ -98,7 +98,7 @@ export const createDocument = async () => {
 
     // Yaratiladigan hujjat uchun ma'lumot
     const data = {
-        name: "jbvfdsb"
+        name: "string"
     };
 
     try {
@@ -120,7 +120,7 @@ export const createDocument = async () => {
             }
         );
 
-        console.log('response', response)
+        console.log('response', response.data)
 
         return response.data; // Foydalanuvchi ma'lumotlarini qaytarish
 
@@ -132,15 +132,7 @@ export const createDocument = async () => {
 };
 
 
-export const getDocumentList = async () => {
-    // So'rov uchun bodyni yaratish
-    const data = {
-        find_by: "",
-        is_deleted: true,
-        is_processed: true,
-        processing: true,
-        status_id: 0
-    };
+export const getDocumentList = async (data = {}) => {
 
     try {
         const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
@@ -161,7 +153,7 @@ export const getDocumentList = async () => {
             }
         );
 
-        return response.data.data; // Hujjatlar ro'yxatini qaytarish
+        return response.data.data.reverse();; // Hujjatlar ro'yxatini qaytarish
 
     } catch (error) {
         // Xatolikni boshqarish
@@ -172,32 +164,121 @@ export const getDocumentList = async () => {
 
 
 export const getDocumentById = async (id) => {
-  try {
-    const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
 
-    if (!token) {
-      throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
-    }
-
-    const response = await axios.get(
-      `${Api_Url}/document/${id}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
-          'Accept': 'application/json', // JSON formatini qabul qilish
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
         }
-      }
-    );
 
-    return response.data; // Hujjat ma'lumotlarini qaytarish
+        const response = await axios.get(
+            `${Api_Url}/document/${id}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                }
+            }
+        );
 
-  } catch (error) {
-    // Xatolikni boshqarish
-    console.error('Error fetching document by ID:', error);
-    throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
-  }
+        return response.data; // Hujjat ma'lumotlarini qaytarish
+
+    } catch (error) {
+        // Xatolikni boshqarish
+        console.error('Error fetching document by ID:', error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
 };
 
+export const updateDocument = async (id, data) => {
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.put(
+            `${Api_Url}/document/update/${id}`,
+            data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                }
+            }
+        );
+
+        console.log("Document updated:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error updating document:", error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
+};
+
+
+export const deleteDocument = async (documentId) => {
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.delete(
+            `${Api_Url}/document/delete/${documentId}`,
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                }
+            }
+        );
+
+        console.log("Document deleted:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error deleting document:", error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
+};
+
+
+
+export const updateDocumentAnswer = async (id, answerData) => {
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+        console.log(answerData, 'id', id)
+
+        const response = await axios.patch(
+            `${Api_Url}/document/answer/${id}`, // id orqali endpoint
+            answerData, // Patch orqali yuboriladigan data (answer_id va comment)
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                    'Content-Type': 'application/json', // JSON formatda ma'lumot yuborish
+                }
+            }
+        );
+        console.log('responss  = ', response)
+        return response.data;
+
+    } catch (error) {
+        if (error.response) {
+            console.error("Error response:", error.response.data);
+            return error.response.data;
+        } else {
+            console.error("Error message:", error.message);
+            throw error;
+        }
+    }
+};
 
 
 
@@ -240,7 +321,6 @@ export const getUserByid = async (id = null) => {
         console.log('Foydalanuvchi topilmadi');
         return null;
     }
-    console.log('Topilgan foydalanuvchi:', user); // Topilgan foydalanuvchini ko'rsatish
     return user
 
 };
@@ -290,11 +370,37 @@ export const getDepartamentByid = async (id = null) => {
         console.log('departament topilmadi');
         return null;
     }
-    console.log('Topilgan foydalanuvchi:', departament); // Topilgan foydalanuvchini ko'rsatish
     return departament
 
 };
 
+
+export const applyTemplateToDocument = async (documentId, templateId) => {
+    try {
+        const token = localStorage.getItem('token'); // Tokenni localStorage'dan olish
+
+        if (!token) {
+            throw new Error('Token mavjud emas. Iltimos, avval tizimga kiring.');
+        }
+
+        const response = await axios.put(
+            `${Api_Url}/document/route/update/apply_template/${documentId}`,
+            { template_id: templateId },
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Tokenni sarlavhada yuborish
+                    'Accept': 'application/json', // JSON formatini qabul qilish
+                }
+            }
+        );
+
+        console.log("Template applied to document:", response.data);
+        return response.data;
+    } catch (error) {
+        console.error("Error applying template to document:", error);
+        throw new Error(error.response?.data?.error || error.message); // Xatolikni qaytarish
+    }
+};
 
 export const createTemplate = async (name, way) => {
 

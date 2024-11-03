@@ -3,6 +3,7 @@ import Editdoc from "./Editdoc";
 import Comment from "./Comment";
 import Postpone from "./Postpone";
 import { getDocumentById } from "../services/api";
+import Subscribe from "./subscribe/Subscribe";
 
 const EditDocument = ({ isOpen, onClose, DocId }) => {
   const [document, setDocument] = useState({});
@@ -12,7 +13,7 @@ const EditDocument = ({ isOpen, onClose, DocId }) => {
       try {
         const doct = await getDocumentById(DocId);
         setDocument(doct);
-        console.log(doct)
+        console.log(doct);
       } catch (error) {
         console.error("Xatolik:", error.message);
       }
@@ -32,23 +33,49 @@ const EditDocument = ({ isOpen, onClose, DocId }) => {
     setActiveModal("comment");
   };
 
+  const [answerId, setanswerId] = useState();
+
   const handlePostpone = () => {
     setActiveModal("postpone");
   };
 
-  const clothe = () =>{
+  const handeleSubcribe = (id = null) => {
+    setanswerId(id);
+    setActiveModal("subscribe");
+  };
+
+  const clothe = () => {
     setActiveModal(null);
-    console.log('world')
-  }
+    console.log("world");
+  };
 
   if (activeModal === "comment") {
-    return <Comment document={document} handleEditClick={handleEditClick} clothe={clothe} />;
+    return (
+      <Comment
+        document={document}
+        handleEditClick={handleEditClick}
+        clothe={clothe}
+      />
+    );
   } else if (activeModal === "edit") {
     return (
-      <Editdoc handleComment={handleComment} document={document} handlePostpone={handlePostpone} />
+      <Editdoc
+        handleComment={handleComment}
+        document={document}
+        handlePostpone={handlePostpone}
+        handeleSubcribe={handeleSubcribe}
+      />
+    );
+  } else if ("subscribe" === activeModal) {
+    return (
+      <Subscribe
+        handleEditClick={handleEditClick}
+        docId={DocId}
+        answerId={answerId}
+      />
     );
   } else if ("postpone" === activeModal) {
-    return <Postpone handleEditClick={handleEditClick} />;
+    return <Postpone handleEditClick={handleEditClick} docId={DocId} />;
   }
 
   return <></>;

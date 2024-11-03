@@ -12,6 +12,7 @@ import PencilSimpleLinedark from "../assets/img/PencilSimpleLinedark.svg";
 import Pagination from "../components/Pagination";
 import { deleteTemplate, getTemplates } from "../services/api";
 import Way from "../components/Way";
+import CreateTemplateButton from "../components/CreateTemplateButton";
 
 const RouteList = () => {
 
@@ -65,7 +66,7 @@ const RouteList = () => {
     <div className="bg-white rounded-lg shadow-md sm:p-6">
       <div className="flex flex-col md:flex-row justify-between  gap-3 md:items-center px-4 sm:px-0 mb-4">
         <h2 className="font-semibold mt-3 text-2xl">Список маршрутов</h2>
-        <CreateItem text="Создать маршрута" to="Create" />
+        <CreateTemplateButton text="Создать маршрута" to="Create" />
       </div>
     <div className="px-4 md:px-0">
       <FilterDocumentBar  />
